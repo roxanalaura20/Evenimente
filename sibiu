@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Evenimente Sibiu — Demo</title>
+  <title>Evenimente Sibiu — Septembrie 2025</title>
   <style>
     :root{
       --card-bg: rgba(14,15,20,0.72);
@@ -29,99 +29,97 @@
     }
     .overlay{ position:fixed; inset:0; z-index:-1; background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.65)); backdrop-filter: blur(2px); }
 
-    header{ display:flex; flex-direction:column; justify-content:center; align-items:center; padding:28px 24px; gap:12px; text-align:center; }
-    .brand{ font-weight:800; font-size:28px; }
-    .dot{ width:14px; height:14px; border-radius:50%; background:var(--accent); box-shadow:0 0 20px rgba(255,107,107,0.35); display:inline-block; margin-right:8px; }
+    header{ display:flex; flex-direction:column; align-items:center; text-align:center; padding:28px 24px; gap:12px; }
+    .brand{ font-weight:700; font-size:28px; }
+    .small{ font-size:14px; color:var(--muted); }
 
     main{ max-width:1200px; margin:28px auto; padding:0 18px 60px; position:relative; z-index:1; }
     .grid{ display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 
     .card{
       background:var(--card-bg); border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column;
-      border:1px solid rgba(255,255,255,0.06); box-shadow:0 10px 30px rgba(0,0,0,0.45); transition:transform .22s ease, box-shadow .22s ease;
+      border:1px solid rgba(255,255,255,0.04); box-shadow:0 10px 30px rgba(0,0,0,0.45); transition:transform .22s ease, box-shadow .22s ease;
+      transform:translateY(0); will-change:transform;
     }
     .card:hover{ transform:translateY(-6px); box-shadow:0 22px 50px rgba(0,0,0,0.55); }
     .media{ width:100%; height:200px; overflow:hidden; background:#0b0c10; position:relative; }
     .media img{ width:100%; height:100%; object-fit:cover; transition:transform .6s ease; transform:scale(1.02); display:block; }
     .card:hover .media img{ transform:scale(1.08); }
 
-    .badge{ position:absolute; left:12px; top:12px; background:rgba(0,0,0,0.45); padding:6px 10px; border-radius:999px; color:#fff; font-weight:700; font-size:13px; border:1px solid rgba(255,255,255,0.06); }
+    .badge{ position:absolute; left:12px; top:12px; background:rgba(0,0,0,0.45); padding:8px 10px; border-radius:999px; color:#fff; font-weight:700; font-size:13px; border:1px solid rgba(255,255,255,0.06); }
     .body{ padding:14px 16px 16px; display:flex; flex-direction:column; gap:8px; min-height:160px; }
-    .title{ font-size:16px; font-weight:700; line-height:1.3; }
+    .title{ font-size:18px; font-weight:700; line-height:1.25; }
     .meta{ color:var(--muted); font-size:14px; display:flex; flex-direction:column; gap:6px; margin-top:4px; }
     .meta .row{ display:flex; gap:10px; align-items:center; }
     .meta strong{ color:#fff; font-weight:700; margin-right:6px; }
     .actions{ margin-top:auto; display:flex; justify-content:space-between; align-items:center; gap:8px; }
-    .btn{ padding:8px 12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.08); color:#fff; text-decoration:none; font-weight:700; font-size:14px; }
+    .btn{ padding:8px 12px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-weight:700; font-size:14px; }
     .small{ font-size:12px; color:var(--muted); }
 
     footer{ text-align:center; color:var(--muted); margin:36px 0 80px; }
+
+    @media(min-width:1100px){ .media{ height:220px } }
   </style>
 </head>
 <body>
 
-  <!-- Background images (public Imgur links) -->
+  <!-- Background images -->
   <div class="bg" aria-hidden="true">
-    <img src="https://i.imgur.com/VN2xTnB.jpg" alt="">
-    <img src="https://i.imgur.com/5Y7dC7r.jpg" alt="">
-    <img src="https://i.imgur.com/3LrWfGp.jpg" alt="">
+    <img src="./images/bg/bg1.jpg" alt="">
+    <img src="./images/bg/bg2.jpg" alt="">
+    <img src="./images/bg/bg3.jpg" alt="">
   </div>
   <div class="overlay" aria-hidden="true"></div>
 
   <header>
-    <div class="brand"><span class="dot"></span>Evenimente Sibiu — Demo</div>
-    <div class="small">Listă cronologică · Click „Detalii & Bilete” pentru pagina oficială</div>
+    <div class="brand">Evenimente Sibiu — Septembrie 2025</div>
+    <div class="small">Demo — Toate evenimentele ordonate cronologic</div>
   </header>
 
   <main>
     <div id="grid" class="grid" role="list" aria-live="polite"></div>
-    <footer>Acesta este un demo. Imaginile sunt găzduite pe Imgur.</footer>
+    <footer>Acesta este un demo. Pune imaginile în <code>/images/events/</code> și bg în <code>/images/bg/</code>.</footer>
   </main>
 
   <script>
-    function fmtDate(dstr){
-      const d = new Date(dstr);
-      return d.toLocaleDateString('ro-RO', { day:'2-digit', month:'short', year:'numeric' });
-    }
-    function fmtTime(dstr){
-      const d = new Date(dstr);
-      return d.toLocaleTimeString('ro-RO', { hour:'2-digit', minute:'2-digit' });
-    }
-
+    // --- array generat automat de Python ---
     const events = [
       {
         title: "AntiPORTRET DE FAMILIE",
         startDateTime: "2025-09-04T19:00:00",
         location: "Centrul Cultural „Ion Besoiu\", Sibiu",
         link: "https://sibiucityapp.ro/ro/events/antiportret-de-familie",
-        image: "https://i.imgur.com/WJr2Hez.jpg"
+        image: "./images/events/AntiPORTRET DE FAMILIE.jpg"
       },
       {
-        title: "Târgul Olarilor 2025",
-        startDateTime: "2025-09-06T08:00:00",
-        location: "Piața Mare, Sibiu",
-        link: "https://sibiucityapp.ro/ro/events/targul-olarilor-2025",
-        image: "https://i.imgur.com/V6zIlV5.jpg"
+        title: "Festivalul meșteșugarilor romi",
+        startDateTime: "2025-09-05T09:00:00",
+        location: "Piața Mică, Sibiu",
+        link: "https://sibiucityapp.ro/ro/events/festivalul-mestesugarilor-romi-6",
+        image: "./images/events/festivalul-mestesugarilor-romi-6.jpg"
       },
-      {
-        title: "Concert de muzică evreiască",
-        startDateTime: "2025-09-07T18:00:00",
-        location: "Sinagoga Mare (Str. Constituției 17)",
-        link: "https://sibiucityapp.ro/ro/events/concert-de-muzica-evreiasca-1",
-        image: "https://i.imgur.com/z2FhW9b.jpg"
-      }
+      // ... completează cu restul evenimentelor extrase
     ];
 
-    // sortare cronologică
-    events.forEach(e => e._ts = e.startDateTime ? new Date(e.startDateTime).getTime() : null);
-    events.sort((a,b)=> (a._ts||Infinity) - (b._ts||Infinity));
+    function fmtDate(dstr){
+      if(!dstr) return "";
+      const d = new Date(dstr);
+      return d.toLocaleDateString('ro-RO', { day:'2-digit', month:'short', year:'numeric' });
+    }
+
+    function fmtTime(dstr){
+      if(!dstr) return "";
+      const d = new Date(dstr);
+      return d.toLocaleTimeString('ro-RO', { hour:'2-digit', minute:'2-digit' });
+    }
 
     const grid = document.getElementById('grid');
+
     function renderEvent(ev){
       const card = document.createElement('article');
       card.className = 'card';
-      const dateLabel = ev._ts ? fmtDate(ev.startDateTime) : "Data necunoscută";
-      const timeLabel = ev._ts ? fmtTime(ev.startDateTime) : "";
+      const dateLabel = ev.startDateTime ? fmtDate(ev.startDateTime) : 'Data necunoscută';
+      const timeLabel = ev.startDateTime ? fmtTime(ev.startDateTime) : '';
       card.innerHTML = `
         <div class="media">
           <img src="${ev.image}" alt="${ev.title}">
@@ -134,13 +132,14 @@
             <div class="row">${ev.location}</div>
           </div>
           <div class="actions">
-            <a class="btn" href="${ev.link}" target="_blank">Detalii & Bilete</a>
+            <a class="btn" href="${ev.link}" target="_blank" rel="noopener noreferrer">Detalii & Bilete</a>
           </div>
         </div>
       `;
       return card;
     }
-    events.forEach(ev=> grid.appendChild(renderEvent(ev)));
+
+    events.forEach(ev => grid.appendChild(renderEvent(ev)));
   </script>
 </body>
 </html>
